@@ -2402,7 +2402,6 @@ export function json(params?: string | core.$ZodCustomParams): ZodJSONSchema {
 
 // preprocess
 
-// /** @deprecated Use `z.pipe()` and `z.transform()` instead. */
 export function preprocess<A, U extends core.SomeType, B = unknown>(
   fn: (arg: B, ctx: core.$RefinementCtx) => A,
   schema: U
