@@ -332,7 +332,10 @@ export type $ZodErrorTree<T, U = string> = T extends util.Primitive
     : T extends any[]
       ? { errors: U[]; items?: Array<$ZodErrorTree<T[number], U>> }
       : T extends object
-        ? { errors: U[]; properties?: { [K in keyof T]?: $ZodErrorTree<T[K], U> } }
+        ? {
+            errors: U[];
+            properties?: { [K in keyof T]?: $ZodErrorTree<T[K], U> };
+          }
         : { errors: U[] };
 
 export function treeifyError<T>(error: $ZodError<T>): $ZodErrorTree<T>;
@@ -343,11 +346,11 @@ export function treeifyError<T, U>(error: $ZodError<T>, mapper = (issue: $ZodIss
     for (const issue of error.issues) {
       if (issue.code === "invalid_union" && issue.errors.length) {
         // regular union error
-        issue.errors.map((issues) => processError({ issues }, issue.path));
+        issue.errors.map((issues) => processError({ issues }, [...path, ...issue.path]));
       } else if (issue.code === "invalid_key") {
-        processError({ issues: issue.issues }, issue.path);
+        processError({ issues: issue.issues }, [...path, ...issue.path]);
       } else if (issue.code === "invalid_element") {
-        processError({ issues: issue.issues }, issue.path);
+        processError({ issues: issue.issues }, [...path, ...issue.path]);
       } else {
         const fullpath = [...path, ...issue.path];
         if (fullpath.length === 0) {
