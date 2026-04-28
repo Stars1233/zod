@@ -2121,6 +2121,17 @@ export function codec<const A extends core.SomeType, B extends core.SomeType = c
   }) as any;
 }
 
+export function invertCodec<A extends core.SomeType, B extends core.SomeType>(codec: ZodCodec<A, B>): ZodCodec<B, A> {
+  const def = codec._zod.def;
+  return new ZodCodec({
+    type: "pipe",
+    in: def.out as any,
+    out: def.in as any,
+    transform: def.reverseTransform as any,
+    reverseTransform: def.transform as any,
+  }) as any;
+}
+
 // ZodReadonly
 export interface ZodReadonly<T extends core.SomeType = core.$ZodType>
   extends _ZodType<core.$ZodReadonlyInternals<T>>,

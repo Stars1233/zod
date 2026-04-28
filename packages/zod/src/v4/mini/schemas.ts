@@ -1629,6 +1629,18 @@ export function codec<const A extends SomeType, B extends core.SomeType = core.$
   }) as any;
 }
 
+// @__NO_SIDE_EFFECTS__
+export function invertCodec<A extends SomeType, B extends SomeType>(codec: ZodMiniCodec<A, B>): ZodMiniCodec<B, A> {
+  const def = codec._zod.def;
+  return new ZodMiniCodec({
+    type: "pipe",
+    in: def.out as any,
+    out: def.in as any,
+    transform: def.reverseTransform as any,
+    reverseTransform: def.transform as any,
+  }) as any;
+}
+
 // ZodMiniReadonly
 export interface ZodMiniReadonly<T extends SomeType = core.$ZodType>
   extends _ZodMiniType<core.$ZodReadonlyInternals<T>> {
