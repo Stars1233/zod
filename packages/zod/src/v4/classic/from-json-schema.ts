@@ -29,7 +29,7 @@ interface ConversionContext {
 }
 
 // Keys that are recognized and handled by the conversion logic
-const RECOGNIZED_KEYS = new Set([
+const RECOGNIZED_KEYS = /*@__PURE__*/ new Set([
   // Schema identification
   "$schema",
   "$ref",

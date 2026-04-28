@@ -254,7 +254,7 @@ export function floatSafeRemainder(val: number, step: number): number {
   return ratio - roundedRatio;
 }
 
-const EVALUATING = Symbol("evaluating");
+const EVALUATING = /* @__PURE__*/ Symbol("evaluating");
 
 export function defineLazy<T, K extends keyof T>(object: T, key: K, getter: () => T[K]): void {
   let value: T[K] | typeof EVALUATING | undefined = undefined;
@@ -361,7 +361,7 @@ export function isObject(data: any): data is Record<PropertyKey, unknown> {
   return typeof data === "object" && data !== null && !Array.isArray(data);
 }
 
-export const allowsEval: { value: boolean } = cached(() => {
+export const allowsEval: { value: boolean } = /* @__PURE__*/ cached(() => {
   // Skip the probe under `jitless`: strict CSPs report the caught `new Function`
   // as a `securitypolicyviolation` even though the throw is swallowed.
   if (globalConfig.jitless) {
@@ -476,8 +476,15 @@ export const getParsedType = (data: any): ParsedTypes => {
   }
 };
 
-export const propertyKeyTypes: Set<string> = new Set(["string", "number", "symbol"]);
-export const primitiveTypes: Set<string> = new Set(["string", "number", "bigint", "boolean", "symbol", "undefined"]);
+export const propertyKeyTypes: Set<string> = /* @__PURE__*/ new Set(["string", "number", "symbol"]);
+export const primitiveTypes: Set<string> = /* @__PURE__*/ new Set([
+  "string",
+  "number",
+  "bigint",
+  "boolean",
+  "symbol",
+  "undefined",
+]);
 export function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

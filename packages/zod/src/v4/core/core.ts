@@ -10,7 +10,7 @@ export interface $constructor<T extends ZodTrait, D = T["_zod"]["def"]> {
 }
 
 /** A special constant with type `never` */
-export const NEVER: never = Object.freeze({
+export const NEVER: never = /*@__PURE__*/ Object.freeze({
   status: "aborted",
 }) as never;
 
