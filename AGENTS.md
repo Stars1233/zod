@@ -65,3 +65,23 @@ Notes:
 - Do NOT use `gh pr checkout --detach` for this — it moves your *current* working tree into detached HEAD instead of creating a worktree.
 - Husky pre-commit runs biome format/lint via lint-staged; pre-push runs the full vitest suite. Both are fast and act as a safety net — don't bypass with `--no-verify` unless you have a specific reason.
 - When done, clean up: `git worktree remove ~/.cursor/worktrees/zod/pr-<N>` and `git branch -D pr-<N>` (and optionally `git remote remove <contributor>`).
+
+## Commenting on issues and PRs
+
+When posting on my behalf via `gh` (PR comments, issue comments, reviews), match the house tone. The default register is direct and a little terse, not enthusiastic.
+
+- No exclamation points. They read as bubbly.
+- No filler praise: skip "Great work", "Awesome", "Nice catch", "Thanks so much for this". A bare "Thanks for the PR" or "Thanks for your work on this" is acceptable to soften a decline, not as preamble before merging or iterating.
+- No "PTAL", "WDYT", or sign-off flourishes asking the contributor to re-review changes I pushed on top. State what changed and the merge intent. ("LGTM" is fine as a literal verdict at the end of a substantive review, not as a sign-off.)
+- Lead with the decision or action: "Going to merge as-is." "Closing this out." "I'd be open to a top-level utility but not as a method." Then the reasoning.
+- First person, owned opinions. "I don't think this should be a method." "I'm hesitant to add this." Don't hide behind passive voice or "we could perhaps consider".
+- Be direct when declining. "out of scope", "behaving as intended", "this is more complicated than it looks" — firm, with a concrete reason, no apology.
+- Cross-reference by number: `#4433`, `commit 2f8414bc`, `merged in #5718`. Concrete and verifiable.
+- Length matches substance. Default to 1–4 sentences. Go long only when the content earns it (root-cause writeups, benchmark results, pointing to a canonical thread).
+- Use prose with inline backticks for symbols. Reach for fenced code blocks only when showing non-trivial code is genuinely clearer than describing it.
+- No emojis in substantive comments. A solitary `👍` in a casual one-liner is rare-but-allowed.
+- Bot mentions are bare imperatives: `@pullfrog review`, `@pullfrog fix merge conflicts`, `@pullfrog re-review fresh.`
+- When pushing a follow-up on top of a contributor's PR, explain what changed, why it differs from the original approach, and that you're merging. Do not request their review or thank them for "letting you" rewrite their work.
+- Disclose AI authorship when a comment was substantively drafted by an assistant. Use one of:
+  - `> _Comment written with AI assistance._` (top of comment, blockquoted)
+  - `_Note: this comment was produced by an AI coding assistant._` (inline italic)
