@@ -1166,6 +1166,15 @@ export function record<Key extends core.$ZodRecordKey, Value extends SomeType>(
   valueType: Value,
   params?: string | core.$ZodRecordParams
 ): ZodMiniRecord<Key, Value> {
+  // v3-compat: z.record(valueType, params?) — defaults keyType to z.string()
+  if (!valueType || !(valueType as any)._zod) {
+    return new ZodMiniRecord({
+      type: "record",
+      keyType: string() as any,
+      valueType: keyType as any as core.$ZodType,
+      ...util.normalizeParams(valueType as string | core.$ZodRecordParams | undefined),
+    }) as any;
+  }
   return new ZodMiniRecord({
     type: "record",
     keyType,

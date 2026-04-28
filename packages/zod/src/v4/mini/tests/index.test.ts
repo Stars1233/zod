@@ -319,6 +319,12 @@ test("z.record", () => {
     [Enum.A]: "hello",
     [Enum.B]: "world",
   });
+
+  // v3-compat single-arg form: z.record(valueType) defaults keyType to z.string()
+  const f = (z.record as any)(z.number());
+  expect(f._zod.def.keyType._zod.def.type).toEqual("string");
+  expect(f._zod.def.valueType._zod.def.type).toEqual("number");
+  expect(z.parse(f, { a: 1, b: 2 })).toEqual({ a: 1, b: 2 });
 });
 
 test("z.map", () => {
