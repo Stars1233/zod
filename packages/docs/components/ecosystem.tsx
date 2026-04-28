@@ -272,11 +272,17 @@ const poweredByZodProjects: ZodResource[] = [
     slug: "endel/zodgres",
   },
   {
+    name: "validex",
+    url: "https://github.com/chiptoma/validex",
+    description: "25 tree-shakeable validation rules for common fields (email, phone, password, etc.) with structured error codes, i18n, and framework adapters.",
+    slug: "chiptoma/validex",
+  },
+  {
     name: "json-up",
     url: "https://github.com/Nano-Collective/json-up",
     description: "A fast, type-safe JSON migration tool with Zod schema validation.",
     slug: "Nano-Collective/json-up",
-  }
+  },
 ];
 
 const zodUtilities: ZodResource[] = [
