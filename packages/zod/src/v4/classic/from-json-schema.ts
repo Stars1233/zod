@@ -632,17 +632,28 @@ export function fromJSONSchema(schema: JSONSchema.JSONSchema | boolean, params?:
     return schema ? z.any() : z.never();
   }
 
-  const version = detectVersion(schema, params?.defaultTarget);
-  const defs = (schema.$defs || schema.definitions || {}) as Record<string, JSONSchema.JSONSchema>;
+  // Normalize input via a JSON round-trip. This guarantees the converter
+  // walks a plain, finite, JSON-valid object graph: cyclic inputs fail here,
+  // getter/Proxy-based properties are materialized into static values, and
+  // class instances collapse to plain objects.
+  let normalized: JSONSchema.JSONSchema;
+  try {
+    normalized = JSON.parse(JSON.stringify(schema));
+  } catch {
+    throw new Error("fromJSONSchema input is not valid JSON (possibly cyclic); use $defs/$ref for recursive schemas");
+  }
+
+  const version = detectVersion(normalized, params?.defaultTarget);
+  const defs = (normalized.$defs || normalized.definitions || {}) as Record<string, JSONSchema.JSONSchema>;
 
   const ctx: ConversionContext = {
     version,
     defs,
     refs: new Map(),
     processing: new Set(),
-    rootSchema: schema,
+    rootSchema: normalized,
     registry: params?.registry ?? globalRegistry,
   };
 
-  return convertSchema(schema, ctx);
+  return convertSchema(normalized, ctx);
 }

@@ -839,3 +839,57 @@ test("description and unrecognized metadata coexist on the same schema", () => {
   expect(schema.description).toBe("A custom string");
   expect(customRegistry.get(schema)?.["x-custom"]).toBe("value");
 });
+
+test("circular input throws a clear error", () => {
+  const person: any = {
+    type: "object",
+    properties: { name: { type: "string" } },
+    required: ["name"],
+  };
+  person.properties.bestFriend = person;
+  expect(() => fromJSONSchema(person)).toThrow(/not valid JSON/);
+});
+
+test("getter-based input that synthesizes a cycle throws", () => {
+  const root: any = { type: "object", properties: { name: { type: "string" } } };
+  Object.defineProperty(root.properties, "self", {
+    enumerable: true,
+    get() {
+      return root;
+    },
+  });
+  expect(() => fromJSONSchema(root)).toThrow(/not valid JSON/);
+});
+
+test("BigInt in input throws", () => {
+  const input: any = { type: "integer", minimum: 1n };
+  expect(() => fromJSONSchema(input)).toThrow(/not valid JSON/);
+});
+
+test("class-instance input is normalized to a plain object", () => {
+  class StringSchema {
+    type = "string" as const;
+    minLength = 2;
+  }
+  const schema = fromJSONSchema(new StringSchema() as any);
+  expect(schema.parse("hi")).toBe("hi");
+  expect(() => schema.parse("h")).toThrow();
+});
+
+test("getter-based properties are materialized", () => {
+  const input: any = { type: "object", properties: {}, required: [] };
+  Object.defineProperty(input.properties, "name", {
+    enumerable: true,
+    get() {
+      return { type: "string" };
+    },
+  });
+  const schema = fromJSONSchema(input);
+  expect(schema.parse({ name: "Alice" })).toEqual({ name: "Alice" });
+});
+
+test("Date default is coerced to its JSON string form", () => {
+  const date = new Date("2026-01-02T03:04:05.000Z");
+  const schema = fromJSONSchema({ type: "string", default: date as any });
+  expect(schema.parse(undefined)).toBe(date.toISOString());
+});
