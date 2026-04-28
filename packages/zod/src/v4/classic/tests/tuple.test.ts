@@ -185,3 +185,91 @@ test("sparse array input", () => {
   const schema = z.tuple([z.string(), z.number()]);
   expect(() => schema.parse(new Array(2))).toThrow();
 });
+
+test("under-length tuple emits a single too_small with optStart minimum", () => {
+  const allRequired = z.tuple([z.string(), z.string()]);
+  expect(allRequired.safeParse(["a"]).error!.issues).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "too_small",
+        "inclusive": true,
+        "message": "Too small: expected array to have >=2 items",
+        "minimum": 2,
+        "origin": "array",
+        "path": [],
+      },
+    ]
+  `);
+  expect(allRequired.safeParse([]).error!.issues).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "too_small",
+        "inclusive": true,
+        "message": "Too small: expected array to have >=2 items",
+        "minimum": 2,
+        "origin": "array",
+        "path": [],
+      },
+    ]
+  `);
+
+  const trailingOptional = z.tuple([z.string(), z.number().optional()]);
+  expect(trailingOptional.safeParse([]).error!.issues).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "too_small",
+        "inclusive": true,
+        "message": "Too small: expected array to have >=1 items",
+        "minimum": 1,
+        "origin": "array",
+        "path": [],
+      },
+    ]
+  `);
+
+  const interiorOptional = z.tuple([z.string(), z.number().optional(), z.string()]);
+  expect(interiorOptional.safeParse(["a", 1]).error!.issues).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "too_small",
+        "inclusive": true,
+        "message": "Too small: expected array to have >=3 items",
+        "minimum": 3,
+        "origin": "array",
+        "path": [],
+      },
+    ]
+  `);
+});
+
+test("too_big tuple still surfaces element-wise type errors for present indices", () => {
+  const schema = z.tuple([z.string(), z.number()]);
+  expect(schema.safeParse([1, "x", "extra"]).error!.issues).toMatchInlineSnapshot(`
+    [
+      {
+        "code": "too_big",
+        "inclusive": true,
+        "maximum": 2,
+        "message": "Too big: expected array to have <=2 items",
+        "origin": "array",
+        "path": [],
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Invalid input: expected string, received number",
+        "path": [
+          0,
+        ],
+      },
+      {
+        "code": "invalid_type",
+        "expected": "number",
+        "message": "Invalid input: expected number, received string",
+        "path": [
+          1,
+        ],
+      },
+    ]
+  `);
+});
