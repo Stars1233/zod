@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { readdirSync, statSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const STUB_PACKAGE_JSON_CONTENT = `{ 
@@ -8,7 +8,7 @@ const STUB_PACKAGE_JSON_CONTENT = `{
   "main": "./index.cjs",
   "module": "./index.js",
   "types": "./index.d.cts",
-  "sideEffects": false 
+  "sideEffects": false
 }
 `;
 
@@ -83,5 +83,13 @@ function writeStubPackageJsons() {
   console.log("\n✨ Done! All stub package.json files have been created.");
 }
 
+function patchJsrJson() {
+  const jsrJsonPath = join(import.meta.dirname, "../packages/zod/jsr.json");
+  const jsrJson = JSON.parse(readFileSync(jsrJsonPath, "utf8"));
+  delete jsrJson.exports["./v4/locales/*"];
+  writeFileSync(jsrJsonPath, `${JSON.stringify(jsrJson, null, 2)}\n`, "utf8");
+}
+
 // Run the script
 writeStubPackageJsons();
+patchJsrJson();

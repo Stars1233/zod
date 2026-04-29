@@ -795,12 +795,12 @@ test("z.treeifyError nested union with real schema", () => {
     const tree: any = z.treeifyError(result.error);
 
     // All settings-related errors should be under "settings", not at root
-    if (tree.properties?.settings) {
-      for (const key of Object.keys(tree.properties.settings.properties ?? {})) {
-        // Every sub-property under settings should NOT also appear at root
-        if (key !== "settings") {
-          expect(tree.properties).not.toHaveProperty(key);
-        }
+    expect(tree.properties).toHaveProperty("settings");
+    const settingsProperties = tree.properties.settings.properties ?? {};
+    for (const key of Object.keys(settingsProperties)) {
+      // Every sub-property under settings should NOT also appear at root
+      if (key !== "settings") {
+        expect(tree.properties).not.toHaveProperty(key);
       }
     }
   }

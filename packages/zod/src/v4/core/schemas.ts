@@ -2048,7 +2048,7 @@ export const $ZodObjectJIT: core.$constructor<$ZodObject> = /*@__PURE__*/ core.$
             path: [${k}]
           });
         }
-        
+
         if (${id}_present) {
           if (${id}.value === undefined) {
             newResult[${k}] = undefined;
@@ -2056,7 +2056,7 @@ export const $ZodObjectJIT: core.$constructor<$ZodObject> = /*@__PURE__*/ core.$
             newResult[${k}] = ${id}.value;
           }
         }
-        
+
       `);
         } else {
           doc.write(`

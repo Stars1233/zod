@@ -722,10 +722,10 @@ z.bigint().check(z.gt(5n));
 z.bigint().check(z.gte(5n));           // alias `.minimum(5n)`
 z.bigint().check(z.lt(5n));
 z.bigint().check(z.lte(5n));           // alias `.maximum(5n)`
-z.bigint().check(z.positive());        // alias `.gt(0n)` 
-z.bigint().check(z.nonnegative()); 
-z.bigint().check(z.negative()); 
-z.bigint().check(z.nonpositive()); 
+z.bigint().check(z.positive());        // alias `.gt(0n)`
+z.bigint().check(z.nonnegative());
+z.bigint().check(z.negative());
+z.bigint().check(z.nonpositive());
 z.bigint().check(z.multipleOf(5n));    // alias `.step(5n)`
 ```
 
