@@ -25,8 +25,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-      
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+
+      - name: Upgrade npm to latest (required for trusted publishing >=11.5.1)
+        run: npm install -g npm@latest
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         
