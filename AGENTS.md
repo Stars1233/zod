@@ -89,9 +89,6 @@ When posting on a maintainer's behalf via `gh` (PR comments, issue comments, rev
 - Skip emojis in substantive technical writeups. A small `👍` in a casual closer is good — it keeps a decline or sign-off sounding warm and friendly without leaning on praise.
 - Bot mentions are bare imperatives: `@pullfrog review`, `@pullfrog fix merge conflicts`, `@pullfrog re-review fresh.`
 - When pushing a follow-up on top of a contributor's PR, state what changed, why it differs from the original approach, and that the maintainer is merging. Never ask the contributor to review the maintainer's changes — they are final, not a proposal. Don't thank them for "letting" the maintainer rewrite their work.
-- Disclose AI authorship when a comment was substantively drafted by an assistant. Use one of:
-  - `> _Comment written with AI assistance._` (top of comment, blockquoted)
-  - `_Note: this comment was produced by an AI coding assistant._` (inline italic)
 - When posting comments with code samples via `gh`, do NOT pass the body inline through a heredoc that requires escaping backticks. Backslash-escaped backticks (`` \` ``) inside a `$(cat <<'EOF' ... EOF)` body get sent to GitHub literally and break inline code and template literals inside fenced blocks. Instead, write the comment to a file and pass it via `--body-file <path>` (for `gh pr/issue comment`) or `-F body=@<path>` (for `gh api`). This preserves backticks and `${...}` exactly as written.
 
 ## Pushing to a new branch (don't accidentally push to main)
