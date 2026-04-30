@@ -2564,6 +2564,15 @@ To perform the *reverse transform*, use the inverse: `z.encode()`.
 z.encode(stringToDate, new Date("2024-01-15")); // => "2024-01-15T00:00:00.000Z"
 ```
 
+Use `z.invertCodec()` to derive a new codec with the input and output schemas swapped.
+
+```ts
+const dateToString = z.invertCodec(stringToDate);
+
+z.decode(dateToString, new Date("2024-01-15")); // => string
+z.encode(dateToString, "2024-01-15T00:00:00.000Z"); // => Date
+```
+
 Refer to the dedicated [Codecs](/codecs) page for more information. That page contains implementations for commonly-needed codecs that you can copy/paste into your project:
 
 - [**`stringToNumber`**](/codecs#stringtonumber)
