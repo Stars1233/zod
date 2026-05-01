@@ -2772,6 +2772,20 @@ const coercedInt = z.preprocess((val) => {
 }, z.int());
 ```
 
+By default, the input type of a `z.preprocess()` schema is `unknown`, since the preprocessor is expected to handle arbitrary input. To narrow the input type, annotate the preprocessor's parameter directly:
+
+```ts
+const trimmed = z.preprocess(
+  (val: string | null | undefined) => val?.trim() ?? "",
+  z.string()
+);
+
+type Input = z.input<typeof trimmed>;  // string | null | undefined
+type Output = z.output<typeof trimmed>; // string
+```
+
+This is useful when integrating with libraries like `react-hook-form` that derive their form value type from `z.input<>`.
+
 ## Defaults
 
 To set a default value for a schema:
