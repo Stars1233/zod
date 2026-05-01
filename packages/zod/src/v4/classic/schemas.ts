@@ -2361,6 +2361,22 @@ export function invertCodec<A extends core.SomeType, B extends core.SomeType>(co
   }) as any;
 }
 
+// ZodPreprocess
+export interface ZodPreprocess<B extends core.SomeType = core.$ZodType>
+  extends ZodPipe<core.$ZodTransform, B>,
+    core.$ZodPreprocess<B> {
+  "~standard": ZodStandardSchemaWithJSON<this>;
+  _zod: core.$ZodPreprocessInternals<B>;
+  def: core.$ZodPreprocessDef<B>;
+}
+export const ZodPreprocess: core.$constructor<ZodPreprocess> = /*@__PURE__*/ core.$constructor(
+  "ZodPreprocess",
+  (inst, def) => {
+    ZodPipe.init(inst, def);
+    core.$ZodPreprocess.init(inst, def);
+  }
+);
+
 // ZodReadonly
 export interface ZodReadonly<T extends core.SomeType = core.$ZodType>
   extends _ZodType<core.$ZodReadonlyInternals<T>>,
@@ -2645,6 +2661,10 @@ export function json(params?: string | core.$ZodCustomParams): ZodJSONSchema {
 export function preprocess<A, U extends core.SomeType, B = unknown>(
   fn: (arg: B, ctx: core.$RefinementCtx) => A,
   schema: U
-): ZodPipe<ZodTransform<A, B>, U> {
-  return pipe(transform(fn as any), schema as any) as any;
+): ZodPreprocess<U> {
+  return new ZodPreprocess({
+    type: "pipe",
+    in: transform(fn as any) as any as core.$ZodTransform,
+    out: schema as any as core.$ZodType,
+  }) as any;
 }

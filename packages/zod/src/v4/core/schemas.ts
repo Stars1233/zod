@@ -4118,6 +4118,37 @@ function handleCodecTxResult(left: ParsePayload, value: any, nextSchema: SomeTyp
   return nextSchema._zod.run({ value, issues: left.issues }, ctx);
 }
 
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+//////////                             //////////
+//////////      $ZodPreprocess         //////////
+//////////                             //////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+export interface $ZodPreprocessDef<B extends SomeType = $ZodType> extends $ZodPipeDef<$ZodTransform, B> {
+  in: $ZodTransform;
+  out: B;
+}
+
+export interface $ZodPreprocessInternals<B extends SomeType = $ZodType> extends $ZodPipeInternals<$ZodTransform, B> {
+  def: $ZodPreprocessDef<B>;
+  optin: B["_zod"]["optin"];
+  optout: B["_zod"]["optout"];
+}
+
+export interface $ZodPreprocess<B extends SomeType = $ZodType> extends $ZodPipe<$ZodTransform, B> {
+  _zod: $ZodPreprocessInternals<B>;
+}
+
+export const $ZodPreprocess: core.$constructor<$ZodPreprocess> = /*@__PURE__*/ core.$constructor(
+  "$ZodPreprocess",
+  (inst, def) => {
+    $ZodPipe.init(inst, def);
+    util.defineLazy(inst._zod, "optin", () => def.out._zod.optin);
+    util.defineLazy(inst._zod, "optout", () => def.out._zod.optout);
+  }
+);
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 //////////                        //////////
