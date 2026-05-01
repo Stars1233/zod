@@ -30,6 +30,7 @@ The project uses pnpm workspaces. Key commands:
 - Features without tests are incomplete - every new feature or bug fix needs test coverage
 - Don't skip tests due to type issues - fix the types instead
 - Test both success and failure cases with edge cases
+- Keep added tests as minimal and dense as possible without sacrificing comprehensiveness; avoid redundant assertions or broad fixtures when a focused case proves the behavior.
 - No log statements (`console.log`, `debugger`) in tests or production code
 - Ask before generating new files
 - Use `util.defineLazy()` for computed properties to avoid circular dependencies
