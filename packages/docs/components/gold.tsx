@@ -3,8 +3,8 @@ export const Gold = () => {
     {
       name: "Zernio",
       description: "Social APIs for developers and AI agents",
-      logoDark: "https://avatars.githubusercontent.com/u/256836318?v=4",
-      logoLight: "https://avatars.githubusercontent.com/u/256836318?v=4",
+      logoDark: "https://zernio.com/brand/logo-white.svg",
+      logoLight: "https://zernio.com/brand/logo-primary.svg",
       url: "zernio.com",
       href: "https://zernio.com/?utm_source=zod",
     },
