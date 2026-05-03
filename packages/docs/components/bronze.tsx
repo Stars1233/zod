@@ -1,12 +1,6 @@
 export const Bronze = () => {
   const companies = [
     {
-      name: "Numeric",
-      logoSrc: "https://avatars.githubusercontent.com/u/91990587?s=200&v=4",
-      url: "numeric.io",
-      href: "https://www.numeric.io",
-    },
-    {
       name: "Jason Laster",
       logoSrc: "https://avatars.githubusercontent.com/u/254562?s=200&v=4",
       url: "github.com/jasonLaster",

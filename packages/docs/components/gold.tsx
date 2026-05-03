@@ -36,14 +36,6 @@ export const Gold = () => {
       url: "stainlessapi.com",
       href: "https://stainlessapi.com",
     },
-    {
-      name: "Speakeasy",
-      description: "SDKs & Terraform providers for your API",
-      logoDark: "https://r2.zod.dev/Logo_White.svg",
-      logoLight: "https://r2.zod.dev/Logo_Black.svg",
-      url: "speakeasy.com",
-      href: "https://speakeasy.com/?utm_source=zod+docs",
-    },
   ];
 
   return (
