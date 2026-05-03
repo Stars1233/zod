@@ -8,13 +8,13 @@ export const Bronze = () => {
     },
     {
       name: "Numeric",
-      logoSrc: "https://i.imgur.com/kTiLtZt.png",
+      logoSrc: "https://avatars.githubusercontent.com/u/91990587?s=200&v=4",
       url: "numeric.io",
       href: "https://www.numeric.io",
     },
     {
       name: "Jason Laster",
-      logoSrc: "https://avatars.githubusercontent.com/u/254562?v=4",
+      logoSrc: "https://avatars.githubusercontent.com/u/254562?s=200&v=4",
       url: "github.com/jasonLaster",
       href: "https://github.com/jasonLaster",
     },
